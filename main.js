@@ -1,4 +1,4 @@
-var points = 0;
+var points = 1000000;
 var addOwned = 1;
 var addBought = 0;
 var addCost = 10;
@@ -11,24 +11,27 @@ var accelOwned = 0;
 var accelCost = 100000;
 
 //game loop
-window.setInterval(function(){
-	
-	if (genOwned <= 0) { //initial number go up
-		pointUp(addOwned)
-	} else { //multiplied number go up
-		var multPoints = Math.floor(addOwned * addMult);
-		pointUp(multPoints);
-	}
-	//generator number go up
-	addOwned = addOwned + genOwned;
-}, 1000 - (accelOwned * 100));
+
+		window.setInterval(function(){
+
+		if (genOwned <= 0) { //initial number go up
+			pointUp(addOwned)
+		} else if (accelOwned <= 0){ //multiplied number go up
+			var multPoints = Math.floor(addOwned * addMult);
+			pointUp(multPoints);
+		} else {
+			pointUp(Math.floor((addOwned * addMult) * (accelOwned * 100)));
+		}
+		//generator number go up
+		addOwned = addOwned + genOwned;
+	}, 1000);
 
 window.setInterval(function(){
 	document.getElementById("points").innerHTML = points;
 	document.getElementById('addOwned').innerHTML = addOwned;
 	document.getElementById('genOwned').innerHTML = genOwned;
 	if (genOwned > 0){
-		addMult = Math.trunc((addMult + Math.sqrt(addBought)* 100)) / 100;
+		addMult = Math.trunc(addMult*100)/100;
 		document.getElementById('addBoughtText').innerHTML = "Bought: ";
 		document.getElementById('addBought').innerHTML = addBought;
 		document.getElementById('addMult').innerHTML = addMult;
@@ -45,6 +48,7 @@ function adder() {
 		addCost = Math.floor(10 * Math.pow(1.1,addBought));
 		addOwned += 1;
 		addBought += 1;
+		addMult += 0.1;
 		points -= addCost;
 		document.getElementById('addOwned').innerHTML = addOwned;
 	}
@@ -58,6 +62,7 @@ function buyMaxAdd(){
 		points -= addCost;
 		addBought += 1;
 		addOwned += 1;
+		addMult += 0.1
 	}
 	var nextCost = Math.floor(10 * Math.pow(1.1,addBought));
 	document.getElementById('addCost').innerHTML = nextCost;
@@ -93,6 +98,7 @@ function accel(n) {
 		points -= accelCost;
 		accelCost *= 2;
 		accelOwned += 1;
+		addMult += 100;
 		document.getElementById('accelOwned').innerHTML = accelOwned;
 		document.getElementById('accelCost').innerHTML = accelCost;
 	} else if (points >= accelCost && accelOwned > 9){
