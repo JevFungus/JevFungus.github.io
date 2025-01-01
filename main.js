@@ -1,4 +1,4 @@
-var points = 1000000;
+var points = 0;
 var addOwned = 1;
 var addBought = 0;
 var addCost = 10;
