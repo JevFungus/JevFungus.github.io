@@ -90,12 +90,11 @@ function buyMaxGen(){
 
 function accel(n) {
 	if (points >= accelCost && accelOwned <= 9) {
-		accelCost *= 2;
 		points -= accelCost;
+		accelCost *= 2;
 		accelOwned += n;
-		var nextCost = accelCost * 2;
 		document.getElementById('accelOwned').innerHTML = accelOwned;
-		document.getElementById('accelCost').innerHTML = nextCost;
+		document.getElementById('accelCost').innerHTML = accelCost;
 	} else if (points >= Math.floor(accelCost * Math.pow(2, accelOwned)) && accelOwned > 9){
 		document.getElementById('accelCost').innerHTML = "ERROR";
 		return;
